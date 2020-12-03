@@ -68,39 +68,39 @@ function runSearch() {
                     removeEmployee();
                     break;
                 case "Update Employee Role":
-                    removeEmployee();
+                    updateEmployeeRole();
                     break;
 
                 case "Remove Employee Manager":
-                    removeEmployee();
+                    removeEmployeeManager();
                     break;
 
                 case "View All Roles":
-                    removeEmployee();
+                    viewAllRoles();
                     break;
 
                 case "Add Role":
-                    removeEmployee();
+                    addRole();
                     break;
 
                 case "Remove Role":
-                    removeEmployee();
+                    removeRole();
                     break;
 
                 case "View All Departments":
-                    removeEmployee();
+                    viewAllDepartments();
                     break;
 
                 case "Add Department":
-                    removeEmployee();
+                    addDepartment();
                     break;
 
                 case "Remove Department":
-                    removeEmployee();
+                    removeDepartment();
                     break;
 
                 case "Quit":
-                    removeEmployee();
+                    quit();
                     break;
             }
         });
