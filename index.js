@@ -128,7 +128,7 @@ function viewAllEmployeesbyDepartment() {
 // }
 
 function addEmployee() {
-    inquirer.prompt(
+    inquirer.prompt([
         {
             type:"input",
             name:"firstName",
@@ -170,8 +170,8 @@ function addEmployee() {
             name: "managerId",
             choices: "Please enter manager id"
         }
-    ).then(function(answer){
-        connection.query("Insert into table ?",
+    ]).then(function(answer){
+        connection.query("INSERT INTO employee first_name =?, last_name =?, role_id = ?, manager_id =?",
         {
             first_name: answer.firstName,
             last_name: answer.lastName,
@@ -181,8 +181,8 @@ function addEmployee() {
         function(err) {
             if (err) throw err;
             console.log("Employee was Added")
-        }
-        )
+        });
+        runSearch();
     })
 }
 
