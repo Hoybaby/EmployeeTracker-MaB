@@ -171,7 +171,8 @@ function addEmployee() {
             choices: "Please enter manager id"
         }
     ]).then(function(answer){
-        connection.query("INSERT INTO employee first_name =?, last_name =?, role_id = ?, manager_id =?",
+        // console.log(answer);
+        connection.query("INSERT INTO employee SET ?",
         {
             first_name: answer.firstName,
             last_name: answer.lastName,
@@ -179,11 +180,14 @@ function addEmployee() {
             manager_id: answer.managerId
         },
         function(err) {
-            if (err) throw err;
+            if (err) throw err; 
             console.log("Employee was Added")
-        });
+       
+            
+        })
         runSearch();
-    })
+        });   
+       
 }
 
 // function removeEmployee() {
