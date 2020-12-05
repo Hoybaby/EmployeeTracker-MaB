@@ -142,7 +142,7 @@ function addEmployee() {
         {
             type: "list",
             name: "roleId",
-            message: "What is your role id of the employee? Role 01 is Sales Lead, 02 is Salesperson, 03 is Lead Engineer, 04 is Software Engineer, 05 is Account Manager, 06 is an Accountant, 07 is Legal Team Lead, 08 is Lawyer",
+            message: "What is id role of that employee? Role 01 is Sales Lead, 02 is Salesperson, 03 is Lead Engineer, 04 is Software Engineer, 05 is Account Manager, 06 is an Accountant, 07 is Legal Team Lead, 08 is Lawyer",
             choices: [
                 01,
                 02,
@@ -195,11 +195,71 @@ function addEmployee() {
 // }
 
 function updateEmployeeRole() {
-    inquirer.prompt()
+    inquirer.prompt([
+        {
+            type:"list",
+            name: "roleId",
+            message: "Please enter Employees Id number that you wish to update",
+            choices: [
+                00,
+                01,
+                02,
+                03,
+                04,
+                05,
+                06,
+                07,
+            ]
+            
+            
+            
+            
+                // choices :function () {
+            //     let lastNameArray = [];
+            //     for (var i = 0; i < res.length; i++) {
+            //         lastNameArray.push(res[i].last_name);
+            //         return lastNameArray;
+            //     }
+            // }
+        },
+        {
+            type: 'list',
+            name: 'roleId',
+            message: "What is the Employee's new title?",
+            message: "What is id role of that employee? Role 01 is Sales Lead, 02 is Salesperson, 03 is Lead Engineer, 04 is Software Engineer, 05 is Account Manager, 06 is an Accountant, 07 is Legal Team Lead, 08 is Lawyer",
+            choices: [
+                01,
+                02,
+                03,
+                04,
+                05,
+                06,
+                07,
+                08,
+            ]
+        }
+    ]).then(function(answer){
+        connection.query("UPDATE employee SET role_id = ? where id = ?",
+        {
+            last_name: answer.lastNameId,
+            role_id: answer.roleId,
+        },    
+        function(err) {
+            if (err) throw err; 
+            console.log("Employee was Updated")
+            runSearch();
+            
+        })
+    })
+    
 }
 
 function removeEmployeeManager() {
-    inquirer.prompt()
+    // inquirer.prompt({
+    //     type:"input",
+    //     name: "id",
+    //     message: "What put the Id number of the Employee you want to"
+    // })
 }
 
 function viewAllRoles() {
