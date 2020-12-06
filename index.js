@@ -52,6 +52,16 @@ function runSearch() {
                     viewAllEmployees();
                     break;
 
+
+
+
+
+ss
+
+
+
+
+
                 case "View All Employees By Department":
                     viewAllEmployeesbyDepartment();
                     break;
@@ -68,8 +78,8 @@ function runSearch() {
                     removeEmployee();
                     break;
                 case "Update Employee Role":
-                    // updateEmployeeRole();
-                    updateByRole();
+                    updateEmployeeRole();
+                    // updateByRole();
                     break;
 
                 case "Remove Employee Manager":
@@ -193,20 +203,77 @@ function addEmployee() {
 // }
 
 function updateEmployeeRole() {
-    i.then(function (answer) {
-        connection.query(
+        inquirer.prompt([
             {
-                sql: "UPDATE employee SET id = ? where role_id = ?",
-                values: [answer.employeeId, answer.roleId],
+                type:"list",
+                name: "employeeId",
+                message: "Please enter Employees Id number that you wish to update",
+                choices: [
+                    00,
+                    01,
+                    02,
+                    03,
+                    04,
+                    05,
+                    06,
+                    07,
+                ]
+                    // choices :function () {
+                //     let lastNameArray = [];
+                //     for (var i = 0; i < res.length; i++) {
+                //         lastNameArray.push(res[i].last_name);
+                //         return lastNameArray;
+                //     }
+                // }
             },
-            function (err) {
-                if (err) throw err;
-                console.log("Employee was Updated");
-                runSearch();
+            {
+                type: 'list',
+                name: 'roleId',
+                message: "What is the Employee's new title?",
+                message: "What is id role of that employee? Role 01 is Sales Lead, 02 is Salesperson, 03 is Lead Engineer, 04 is Software Engineer, 05 is Account Manager, 06 is an Accountant, 07 is Legal Team Lead, 08 is Lawyer",
+                choices: [
+                    00,
+                    01,
+                    02,
+                    03,
+                    04,
+                    05,
+                    06,
+                    07,
+                    08,
+                ]
             }
-        );
-    });
+        ]).then(function(answer){
+            console.log(answer)
+            connection.query("UPDATE employee SET role_id = ? where id = ?",
+            [
+                answer.roleId,
+                answer.employeeId,
+            ],    
+            function(err) {
+                if (err) throw err; 
+                console.log("Employee was Updated")
+                runSearch();
+    
+            })
+        })
 }
+    
+
+//     i.then(function (answer) {
+//         connection.query(
+//             {
+//                 sql: "UPDATE employee SET id = ? where role_id = ?",
+//                 values: [answer.employeeId, answer.roleId],
+//             },
+//             function (err) {
+//                 if (err) throw err;
+//                 console.log("Employee was Updated");
+//                 runSearch();
+//             }
+//         );
+//     });
+// }
 
 function removeEmployeeManager() {
     // inquirer.prompt({
@@ -246,10 +313,21 @@ function addRole() {
                 message: "Please enter the department Id for this role",
             },
         ])
-        .then(function (answers) {
-            addRole(answers.title, answers.salary, answers.department_id);
-            runSearch();
-        });
+        .then(function (answer) {
+            connection.query( "INSERT INTO role SET ?",
+            {
+                title: answer.title,
+                salary: answer.salary,
+                department_id: answer.department_id,
+            },
+            function(err) {
+                if (err) throw err; 
+                console.log("role was added")
+                runSearch();
+    
+            })
+        })
+        
 }
 
 // function removeRole() {
@@ -276,17 +354,17 @@ function quit() {
     inquirer.prompt();
 }
 
-function updateByRole(employeeId, roleId) {
-    var byRole = connection.query(
-        "UPDATE employee SET role_id = ? WHERE id = ?",
+// function updateByRole(employeeId, roleId) {
+//     var byRole = connection.query(
+//         "UPDATE employee SET role_id = ? WHERE id = ?",
 
-        [roleId, employeeId],
-        function (error, role) {
-            if (error) throw error;
-        }
-    );
-    byDepartment();
-}
+//         [roleId, employeeId],
+//         function (error, role) {
+//             if (error) throw error;
+//         }
+//     );
+//     byDepartment();
+// }
 
 function byDepartment() {
     var department = connection.query(
@@ -299,26 +377,26 @@ function byDepartment() {
     );
 }
 
-function roleTable() {
-    var roleT = connection.query(
-        "SELECT title, salary, department_id FROM role;",
+// function roleTable() {
+//     var roleT = connection.query(
+//         "SELECT title, salary, department_id FROM role;",
 
-        function (error, roleT) {
-            if (error) throw error;
-            console.table(roleT);
-        }
-    );
-}
+//         function (error, roleT) {
+//             if (error) throw error;
+//             console.table(roleT);
+//         }
+//     );
+// }
 // "Add role"
-function addRole(title, salary, department_id) {
-    var newRole = connection.query(
-        "INSERT INTO role SET title = ?, salary = ?, department_id = ?",
-        [title, salary, department_id],
-        function (error, newRole) {
-            if (error) throw error;
-            // console.table(manager)
-        }
-    );
+// function addRole(title, salary, department_id) {
+//     var newRole = connection.query(
+//         "INSERT INTO role SET title = ?, salary = ?, department_id = ?",
+//         [title, salary, department_id],
+//         function (error, newRole) {
+//             if (error) throw error;
+//             // console.table(manager)
+//         }
+//     );
 
-    roleTable();
-}
+//     roleTable();
+// }
