@@ -110,9 +110,9 @@ ss
                     removeDepartment();
                     break;
 
-                case "Quit":
-                    quit();
-                    break;
+                default:
+                    return quit();
+                    
             }
         });
 }
@@ -142,7 +142,8 @@ function viewAllEmployeesbyDepartment() {
 // }
 
 function addEmployee() {
-    viewAllRoles();
+    const roleChoices = role.map(({id,  title, salary}))
+    // viewAllRoles();
     inquirer
         .prompt([
             {
@@ -160,7 +161,10 @@ function addEmployee() {
                 name: "roleId",
                 message:
                     "What is id role of that employee? Role 01 is Sales Lead, 02 is Salesperson, 03 is Lead Engineer, 04 is Software Engineer, 05 is Account Manager, 06 is an Accountant, 07 is Legal Team Lead, 08 is Lawyer",
-                choices: [01, 02, 03, 04, 05, 06, 07, 08],
+                choices:[
+                    
+                ]
+                    // choices: [01, 02, 03, 04, 05, 06, 07, 08],
             },
             // {
             //     type: "list",
@@ -260,28 +264,58 @@ function updateEmployeeRole() {
 }
     
 
-//     i.then(function (answer) {
-//         connection.query(
-//             {
-//                 sql: "UPDATE employee SET id = ? where role_id = ?",
-//                 values: [answer.employeeId, answer.roleId],
-//             },
-//             function (err) {
-//                 if (err) throw err;
-//                 console.log("Employee was Updated");
-//                 runSearch();
-//             }
-//         );
-//     });
-// }
+// function removeEmployeeManager() {
+//     inquirer.prompt([
+//         {
+//             type:"list",
+//             name: "employeeId",
+//             message: "Please enter Employees Id number that you wish to remove the manager from",
+//             choices: [
+//                 00,
+//                 01,
+//                 02,
+//                 03,
+//                 04,
+//                 05,
+//                 06,
+//                 07,
+//             ]
+        
+//         },
+//         {
+//             type: 'list',
+//             name: 'newManager',
+//             message: "Who is the Employee's new manager?",
+//             message: "What is id role of that employee? Role 01 is Sales Lead, 02 is Salesperson, 03 is Lead Engineer, 04 is Software Engineer, 05 is Account Manager, 06 is an Accountant, 07 is Legal Team Lead, 08 is Lawyer",
+//             choices: [
+//                 00,
+//                 01,
+//                 02,
+//                 03,
+//                 04,
+//                 05,
+//                 06,
+//                 07,
+//                 08,
+//             ]
+//         }
+//     ]).then(function(answer){
+//         console.log(answer)
+//         connection.query("UPDATE employee SET role_id = ? where id = ?",
+//         [
+//             answer.roleId,
+//             answer.employeeId,
+//         ],    
+//         function(err) {
+//             if (err) throw err; 
+//             console.log("Employee was Updated")
+//             runSearch();
 
-function removeEmployeeManager() {
-    // inquirer.prompt({
-    //     type:"input",
-    //     name: "id",
-    //     message: "What put the Id number of the Employee you want to"
-    // })
-}
+//         })
+//     })
+// }
+        
+
 
 function viewAllRoles() {
     connection.query(
@@ -343,15 +377,31 @@ function viewAllDepartments() {
 }
 
 function addDepartment() {
-    inquirer.prompt();
+    inquirer.prompt(
+        {
+            type: "input",
+            name: "addDepartment",
+            message: "What department would you like to add?"
+        }
+    ).then(function(answer){
+        connection.query("INSERT INTO department SET ?", 
+        {
+            name: answer.addDepartment
+        },
+        function(err) {
+            if (err) throw err;
+            console.log("Department was added")
+            runSearch();
+        }
+        )
+
+    })
 }
 
-// function removeDepartment() {
-//     inquirer.prompt()
-// }
 //do i need this quit function?
 function quit() {
-    inquirer.prompt();
+    console.log("Application Terminated");
+    process.exit();
 }
 
 // function updateByRole(employeeId, roleId) {
@@ -366,16 +416,16 @@ function quit() {
 //     byDepartment();
 // }
 
-function byDepartment() {
-    var department = connection.query(
-        "SELECT employee.id, employee.first_name, employee.last_name, department.d_name FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id;",
+// function byDepartment() {
+//     var department = connection.query(
+//         "SELECT employee.id, employee.first_name, employee.last_name, department.d_name FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id;",
 
-        function (error, department) {
-            if (error) throw error;
-            console.table(department);
-        }
-    );
-}
+//         function (error, department) {
+//             if (error) throw error;
+//             console.table(department);
+//         }
+//     );
+// }
 
 // function roleTable() {
 //     var roleT = connection.query(
