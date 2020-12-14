@@ -1,8 +1,14 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
 const fs = require("fs");
-
+const logo = require('asciiart-logo')
 //need to make a connection from previous activities.
+init();
+function init() {
+    const logoText = logo({ name: "Employee Tracker" }).render();
+    console.log(logoText);
+    // loadMainPrompts();
+}
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -56,7 +62,7 @@ function runSearch() {
 
 
 
-ss
+
 
 
 
@@ -142,7 +148,6 @@ function viewAllEmployeesbyDepartment() {
 // }
 
 function addEmployee() {
-    const roleChoices = role.map(({id,  title, salary}))
     // viewAllRoles();
     inquirer
         .prompt([
@@ -161,10 +166,7 @@ function addEmployee() {
                 name: "roleId",
                 message:
                     "What is id role of that employee? Role 01 is Sales Lead, 02 is Salesperson, 03 is Lead Engineer, 04 is Software Engineer, 05 is Account Manager, 06 is an Accountant, 07 is Legal Team Lead, 08 is Lawyer",
-                choices:[
-                    
-                ]
-                    // choices: [01, 02, 03, 04, 05, 06, 07, 08],
+                choices: [01, 02, 03, 04, 05, 06, 07, 08],
             },
             // {
             //     type: "list",
@@ -264,56 +266,56 @@ function updateEmployeeRole() {
 }
     
 
-// function removeEmployeeManager() {
-//     inquirer.prompt([
-//         {
-//             type:"list",
-//             name: "employeeId",
-//             message: "Please enter Employees Id number that you wish to remove the manager from",
-//             choices: [
-//                 00,
-//                 01,
-//                 02,
-//                 03,
-//                 04,
-//                 05,
-//                 06,
-//                 07,
-//             ]
+function removeEmployeeManager() {
+    inquirer.prompt([
+        {
+            type:"list",
+            name: "employeeId",
+            message: "Please enter Employees Id number that you wish to remove the manager from",
+            choices: [
+                00,
+                01,
+                02,
+                03,
+                04,
+                05,
+                06,
+                07,
+            ]
         
-//         },
-//         {
-//             type: 'list',
-//             name: 'newManager',
-//             message: "Who is the Employee's new manager?",
-//             message: "What is id role of that employee? Role 01 is Sales Lead, 02 is Salesperson, 03 is Lead Engineer, 04 is Software Engineer, 05 is Account Manager, 06 is an Accountant, 07 is Legal Team Lead, 08 is Lawyer",
-//             choices: [
-//                 00,
-//                 01,
-//                 02,
-//                 03,
-//                 04,
-//                 05,
-//                 06,
-//                 07,
-//                 08,
-//             ]
-//         }
-//     ]).then(function(answer){
-//         console.log(answer)
-//         connection.query("UPDATE employee SET role_id = ? where id = ?",
-//         [
-//             answer.roleId,
-//             answer.employeeId,
-//         ],    
-//         function(err) {
-//             if (err) throw err; 
-//             console.log("Employee was Updated")
-//             runSearch();
+        },
+        {
+            type: 'list',
+            name: 'newManager',
+            message: "Who is the Employee's new manager?",
+            message: "What is id role of that employee? Role 01 is Sales Lead, 02 is Salesperson, 03 is Lead Engineer, 04 is Software Engineer, 05 is Account Manager, 06 is an Accountant, 07 is Legal Team Lead, 08 is Lawyer",
+            choices: [
+                00,
+                01,
+                02,
+                03,
+                04,
+                05,
+                06,
+                07,
+                08,
+            ]
+        }
+    ]).then(function(answer){
+        console.log(answer)
+        connection.query("UPDATE employee SET role_id = ? where id = ?",
+        [
+            answer.roleId,
+            answer.employeeId,
+        ],    
+        function(err) {
+            if (err) throw err; 
+            console.log("Employee was Updated")
+            runSearch();
 
-//         })
-//     })
-// }
+        })
+    })
+}
         
 
 
